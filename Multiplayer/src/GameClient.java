@@ -1,7 +1,6 @@
 import br.com.etyllica.EtyllicaFrame;
 import br.com.etyllica.context.Application;
-
-import com.client.ClientApplication;
+import client.ClientApplication;
 
 
 public class GameClient extends EtyllicaFrame {
