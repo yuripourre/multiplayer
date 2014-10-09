@@ -1,4 +1,4 @@
-package com.client;
+package com.marvel.quest.network.client;
 
 import java.awt.Color;
 import java.util.LinkedHashMap;
@@ -17,7 +17,7 @@ import br.com.etyllica.network.realtime.ClientActionListener;
 import br.com.etyllica.network.realtime.model.KeyAction;
 import br.com.etyllica.network.realtime.model.Message;
 
-public class ClientApplication extends Application implements ClientActionListener {
+public class ClientApplication extends Application implements ClientActionListener<State> {
 
 	private Map<Integer, State> players = new LinkedHashMap<Integer, State>();
 	
@@ -36,7 +36,7 @@ public class ClientApplication extends Application implements ClientActionListen
 
 		String host = "127.0.0.1";
 
-		client = new KryoActionClient(host, ActionServerApplication.ACTION_TCP_PORT, ActionServerApplication.ACTION_UDP_PORT, this);
+		client = new KryoActionClient<State>(host, ActionServerApplication.ACTION_TCP_PORT, ActionServerApplication.ACTION_UDP_PORT, this);
 		client.init();
 		client.prepare();
 
@@ -92,7 +92,7 @@ public class ClientApplication extends Application implements ClientActionListen
 		}
 
 		//Ignore Repeat Keys
-		if(event.getState()!=KeyState.TYPED)
+		if(event.getState() != KeyState.TYPED)
 			client.sendKeyAction(new KeyAction(event.getKey(), event.getState()));
 
 		return GUIEvent.NONE;
@@ -104,10 +104,12 @@ public class ClientApplication extends Application implements ClientActionListen
 		for(State state: states) {
 			
 			int id = state.id;
+						
+			//Update State
+			State oldState = players.get(id);
+			oldState.x = state.x;
+			oldState.y = state.y;			
 			
-			if(!players.containsKey(id)) {
-				players.put(id, state);
-			}
 		}
 	}
 
@@ -115,6 +117,24 @@ public class ClientApplication extends Application implements ClientActionListen
 	public void receiveMessage(Message message) {
 		sender = message.sender;
 		messageText = message.text;
+	}
+
+	@Override
+	public void playerJoin(int id) {
+		
+		State state = new State();
+		
+		players.put(id, state);
+	}
+
+	@Override
+	public void playerLeft(int id) {
+		players.remove(id);		
+	}
+
+	@Override
+	public Class<?> getStateClass() {
+		return State.class;
 	}
 
 }

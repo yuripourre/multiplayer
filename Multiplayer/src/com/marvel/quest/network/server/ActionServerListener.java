@@ -1,9 +1,9 @@
-package server;
+package com.marvel.quest.network.server;
 
-import br.com.etyllica.network.examples.action.PlatformActionServerListener;
+import br.com.etyllica.network.tide.platform.PlatformServerListener;
 import br.com.tide.platform.player.PlatformPlayer;
 
-public class ActionServerListener extends PlatformActionServerListener {
+public class ActionServerListener extends PlatformServerListener {
 
 	public ActionServerListener(int interval) {
 		super(interval);
@@ -98,6 +98,5 @@ public class ActionServerListener extends PlatformActionServerListener {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 }

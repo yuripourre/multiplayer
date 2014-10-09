@@ -1,6 +1,7 @@
+import com.marvel.quest.network.client.ClientApplication;
+
 import br.com.etyllica.EtyllicaFrame;
 import br.com.etyllica.context.Application;
-import client.ClientApplication;
 
 
 public class GameClient extends EtyllicaFrame {
